@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install -y \
     libboost-filesystem1.74.0 \
     libboost-thread1.74.0 \
     libevent-2.1-7 \
+    libevent-pthreads-2.1-7 \
     libzmq5 \
     libminiupnpc17 \
     libsodium23 \
@@ -24,6 +25,8 @@ RUN ldconfig
 # 拷贝编译好的二进制
 COPY bitcoind /usr/local/bin/
 COPY bitcoin-cli /usr/local/bin/
+
+RUN ldd bitcoind
 
 # 拷贝配置文件
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
