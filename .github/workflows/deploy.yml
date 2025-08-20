@@ -1,0 +1,50 @@
+name: Deploy to Phala Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Step 4: Log in to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Step 5: Build Docker Image and Push
+      - name: Build Docker Image and Push
+        run: |
+          export DOCKER_BUILDKIT=1
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_monitor:latest
+          docker buildx build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t $IMAGE_NAME --push .
+
+      # Step 6: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      # Step 7: Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Step 8: Run deploy script
+      - name: Run deploy script
+        env:
+          PHALA_CLOUD_API_KEY: ${{ secrets.PHALA_CLOUD_API_KEY }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD}}
+          DOCKER_REGISTRY_USERNAME: ${{ github.repository_owner }}
+        run: python deploy-phala-cvm.py

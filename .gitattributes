@@ -1,0 +1,2 @@
+bitcoind filter=lfs diff=lfs merge=lfs -text
+bitcoin-cli filter=lfs diff=lfs merge=lfs -text
