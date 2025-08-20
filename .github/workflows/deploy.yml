@@ -29,21 +29,21 @@ jobs:
         run: |
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_monitor:latest
-          docker buildx build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t $IMAGE_NAME --push ./bitcoin
+          docker buildx build --no-cache -t $IMAGE_NAME --push ./bitcoin
 
       # Step 5: Build Docker Image and Push
       - name: Build Docker Image and Push
         run: |
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_web:latest
-          docker buildx build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t $IMAGE_NAME --push ./web
+          docker buildx build --no-cache -t $IMAGE_NAME --push ./web
 
       # Step 5: Build Docker Image and Push
       - name: Build Docker Image and Push
         run: |
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_frontend:latest
-          docker buildx build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t $IMAGE_NAME --push ./frontend
+          docker buildx build --no-cache -t $IMAGE_NAME --push ./frontend
 
       # Step 6: Set up Python
       - name: Set up Python
