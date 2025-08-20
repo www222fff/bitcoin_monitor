@@ -9,6 +9,17 @@ RUN apt-get update && apt-get install -y \
     libssl3 \
     && rm -rf /var/lib/apt/lists/*
 
+
+RUN apt-get update && apt-get install -y git git-lfs
+RUN git lfs install
+
+WORKDIR /src
+# 克隆代码（包含 LFS 文件）
+RUN git clone https://github.com/www222fff/bitcoin_monitor.git .
+RUN git lfs pull
+
+RUN ls -lh
+
 # 创建目录
 RUN mkdir -p /usr/local/bin /root/.bitcoin
 
