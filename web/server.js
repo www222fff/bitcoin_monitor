@@ -1,4 +1,62 @@
 import express from "express";
+import cors from "cors";
+import fetch from "node-fetch";
+import dotenv from "dotenv";
+
+
+dotenv.config();
+
+
+const app = express();
+app.use(express.json());
+
+
+// CORS (allow specific origin or all by default)
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
+app.use(cors({ origin: CORS_ORIGIN }));
+
+
+// RPC connection settings
+const RPC_HOST = process.env.RPC_HOST || "bitcoind"; // docker-compose service name or IP
+const RPC_PORT = Number(process.env.RPC_PORT || 8332);
+const RPC_USER = process.env.RPC_USER || "he";
+const RPC_PASSWORD = process.env.RPC_PASSWORD || "shuang";
+const WEB_PORT = Number(process.env.WEB_PORT || 3000);
+
+
+const RPC_URL = `http://${RPC_HOST}:${RPC_PORT}`;
+
+
+// Helper: call bitcoind JSON-RPC
+async function rpcCall(method, params = []) {
+const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+
+try {
+const res = await fetch(RPC_URL, {
+method: "POST",
+headers: {
+"Content-Type": "text/plain",
+"Authorization": "Basic " + Buffer.from(`${RPC_USER}:${RPC_PASSWORD}`).toString("base64")
+},
+body: JSON.stringify({ jsonrpc: "1.0", id: "web", method, params }),
+signal: controller.signal
+});
+
+
+const json = await res.json().catch(() => ({ error: { code: -32700, message: "Invalid JSON from RPC" } }));
+
+
+if (!res.ok) {
+// HTTP error from daemon/proxy
+throw new Error(`HTTP ${res.status} ${res.statusText}`);
+}
+
+
+if (json.error) {
+// JSON-RPC level error
+throw new Error(`RPC error ${json.error.code}: ${json.error.message}`);
 }
 
 
@@ -8,11 +66,8 @@ clearTimeout(timeout);
 }
 }
 
-
 // Healthcheck
 app.get("/healthz", (req, res) => res.json({ ok: true }));
-
-const WEB_PORT = process.env.WEB_PORT;
 
 // 1) GET /api/total-balances → gettotalbalances
 app.get("/api/total-balances", async (req, res) => {
