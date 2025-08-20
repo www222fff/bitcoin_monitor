@@ -100,6 +100,8 @@ services:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_monitor:latest
     pull_policy: always
     container_name: bitcoind
+    ports:
+      - "8332:8332"
     volumes:
       - /var/run/tappd.sock:/var/run/tappd.sock
       - tee:/app/db.sqlite
