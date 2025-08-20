@@ -1,14 +1,19 @@
 FROM ubuntu:22.04
 
-# 安装运行所需依赖
+# 安装 bitcoind 依赖的系统库
 RUN apt-get update && apt-get install -y \
-    libevent-2.1-7 \
-    libboost-system1.74.0 \
     libboost-filesystem1.74.0 \
     libboost-thread1.74.0 \
-    libssl3 \
+    libevent-2.1-7 \
+    libzmq5 \
+    libminiupnpc17 \
+    libsodium23 \
+    libsqlite3-0 \
+    libpgm-5.3-0 \
+    libbsd0 \
+    krb5-user \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
-
 
 # 创建目录
 RUN mkdir -p /usr/local/bin /root/.bitcoin /usr/local/lib
