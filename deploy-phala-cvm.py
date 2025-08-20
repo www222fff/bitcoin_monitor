@@ -111,6 +111,7 @@ services:
 
   web:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_web:latest
+    pull_policy: always
     container_name: bitcoin-web
     environment:
       - RPC_HOST=bitcoind
@@ -124,6 +125,7 @@ services:
 
   frontend:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_frontend:latest
+    pull_policy: always
     container_name: bitcoin-frontend
     ports:
       - "8080:3000"
