@@ -11,8 +11,10 @@ jobs:
 
     steps:
       # Step 1: Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout code with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
       # Step 2: Set up Docker Buildx
       - name: Set up Docker Buildx
