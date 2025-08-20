@@ -9,7 +9,7 @@ function App() {
   const [balances, setBalances] = useState([]);
   const [totalBalance, setTotalBalance] = useState(0);
 
-  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:4000";
+  const API_BASE = process.env.REACT_APP_API_URL;
 
   const fetchData = async () => {
     try {

@@ -24,7 +24,6 @@ RUN ldconfig
 
 # 拷贝编译好的二进制
 COPY bitcoind /usr/local/bin/
-COPY bitcoin-cli /usr/local/bin/
 
 # 拷贝配置文件
 COPY bitcoin.conf /root/.bitcoin/bitcoin.conf

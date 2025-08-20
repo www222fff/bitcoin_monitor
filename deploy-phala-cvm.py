@@ -112,13 +112,12 @@ services:
   web:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_web:latest
     container_name: bitcoin-web
-    ports:
-      - "3000:3000"
     environment:
       - RPC_HOST=bitcoind
       - RPC_PORT=8332
       - RPC_USER=he
       - RPC_PASSWORD=shuang
+      - WEB_PORT = 3000
     depends_on:
       - bitcoind
     restart: unless-stopped
@@ -128,6 +127,8 @@ services:
     container_name: bitcoin-frontend
     ports:
       - "8080:80"
+    environment:
+      - REACT_APP_API_URL=http://bitcoin-web:3000
     depends_on:
       - web
     restart: unless-stopped

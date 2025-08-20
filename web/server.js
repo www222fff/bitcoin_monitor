@@ -12,6 +12,7 @@ clearTimeout(timeout);
 // Healthcheck
 app.get("/healthz", (req, res) => res.json({ ok: true }));
 
+const WEB_PORT = process.env.WEB_PORT;
 
 // 1) GET /api/total-balances → gettotalbalances
 app.get("/api/total-balances", async (req, res) => {
