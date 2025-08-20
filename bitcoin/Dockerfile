@@ -1,6 +1,6 @@
 FROM ubuntu:22.04
 
-# 安装 bitcoind 依赖的系统库
+# 1. 先以root安装系统依赖和创建用户
 RUN apt-get update && apt-get install -y \
     libboost-filesystem1.74.0 \
     libboost-thread1.74.0 \
@@ -16,20 +16,27 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# 创建目录
-RUN mkdir -p /usr/local/bin /root/.bitcoin /usr/local/lib
+# 2. 创建bitcoin用户
+RUN useradd -r -m -u 1000 -s /bin/bash bitcoin
 
+# 3. 创建比特币数据目录并设置权限
+RUN mkdir -p /home/bitcoin/.bitcoin && \
+    chown bitcoin:bitcoin /home/bitcoin/.bitcoin
+
+# 4. 复制系统文件（需要root权限）
 COPY libdb_cxx-4.8.so /usr/local/lib/
+COPY bitcoind /usr/local/bin/
 RUN ldconfig
 
-# 拷贝编译好的二进制
-COPY bitcoind /usr/local/bin/
+# 5. 复制配置文件并设置正确所有者
+COPY --chown=bitcoin:bitcoin bitcoin.conf /home/bitcoin/.bitcoin/bitcoin.conf
 
-# 拷贝配置文件
-COPY bitcoin.conf /root/.bitcoin/bitcoin.conf
+# 6. 切换到bitcoin用户
+USER bitcoin
+WORKDIR /home/bitcoin/.bitcoin
 
 # 暴露端口
 EXPOSE 8332 8333
 
-# 启动 bitcoind
-CMD ["bitcoind", "-conf=/root/.bitcoin/bitcoin.conf", "-printtoconsole"]
+# 7. 使用完整路径启动bitcoind
+CMD ["/usr/local/bin/bitcoind", "-conf=/home/bitcoin/.bitcoin/bitcoin.conf", "-printtoconsole"]
