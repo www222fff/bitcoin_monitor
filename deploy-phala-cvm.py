@@ -101,7 +101,7 @@ services:
     pull_policy: always
     container_name: bitcoind
     ports:
-      - "8332:8333"
+      - "8332:8332"
     volumes:
       - /var/run/tappd.sock:/var/run/tappd.sock
       - tee:/app/db.sqlite
@@ -117,7 +117,7 @@ services:
       - RPC_PORT=8332
       - RPC_USER=he
       - RPC_PASSWORD=shuang
-      - WEB_PORT = 3000
+      - WEB_PORT = 4000
     depends_on:
       - bitcoind
     restart: unless-stopped
@@ -126,9 +126,9 @@ services:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_frontend:latest
     container_name: bitcoin-frontend
     ports:
-      - "8080:80"
+      - "8080:3000"
     environment:
-      - REACT_APP_API_URL=http://bitcoin-web:3000
+      - REACT_APP_API_URL=http://bitcoin-web:4000
     depends_on:
       - web
     restart: unless-stopped

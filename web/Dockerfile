@@ -14,7 +14,7 @@ RUN npm install --only=production
 COPY server.js ./
 
 # Port for the web API
-EXPOSE 3000
+EXPOSE 4000
 
 
 # Start the server
