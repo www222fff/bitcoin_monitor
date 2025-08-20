@@ -14,9 +14,9 @@ function App() {
   const fetchData = async () => {
     try {
       const [utxoRes, balanceRes, totalRes] = await Promise.all([
-        axios.get(`${API_BASE}/getlatestutxo`),
-        axios.get(`${API_BASE}/getaddressbalances/0`),
-        axios.get(`${API_BASE}/gettotalbalances`)
+        axios.get(`${API_BASE}/api/latest-utxo`),       // 匹配 /api/latest-utxo
+        axios.get(`${API_BASE}/address-balances?minConf=0`), // 匹配 /address-balances
+        axios.get(`${API_BASE}/api/total-balances`)     // 匹配 /api/total-balances
       ]);
       setUtxos(utxoRes.data || []);
       setBalances(balanceRes.data || []);

@@ -113,6 +113,8 @@ services:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_web:latest
     pull_policy: always
     container_name: bitcoin-web
+    ports:
+      - "4000:4000"
     environment:
       - RPC_HOST=bitcoind
       - RPC_PORT=8332
