@@ -21,7 +21,7 @@ const RPC_HOST = process.env.RPC_HOST || "bitcoind"; // docker-compose service n
 const RPC_PORT = Number(process.env.RPC_PORT || 8332);
 const RPC_USER = process.env.RPC_USER || "he";
 const RPC_PASSWORD = process.env.RPC_PASSWORD || "shuang";
-const WEB_PORT = Number(process.env.WEB_PORT || 3000);
+const WEB_PORT = Number(process.env.WEB_PORT || 4000);
 
 
 const RPC_URL = `http://${RPC_HOST}:${RPC_PORT}`;
