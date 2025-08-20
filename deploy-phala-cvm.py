@@ -110,7 +110,7 @@ services:
     restart: always
 
   web:
-    build: ./web    # Node.js 后端
+    image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_web:latest
     container_name: bitcoin-web
     ports:
       - "3000:3000"
@@ -124,7 +124,7 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend   # React/Vue/Nuxt 静态前端
+    image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_frontend:latest
     container_name: bitcoin-frontend
     ports:
       - "8080:80"
