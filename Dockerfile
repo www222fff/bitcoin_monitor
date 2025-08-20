@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /usr/local/bin /root/.bitcoin /usr/local/lib
 
 COPY libdb_cxx-4.8.so /usr/local/lib/
-RUN ldconfig
 
 # 拷贝编译好的二进制
 COPY bitcoind /usr/local/bin/
