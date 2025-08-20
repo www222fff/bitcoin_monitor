@@ -96,10 +96,10 @@ async def deploy(teepod_id: int, image: str) -> Dict[str, Any]:
 
     docker_compose = """
 services:
-  eliza:
+  bitcoind:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_monitor:latest
     pull_policy: always
-    container_name: bitcoin_monitor
+    container_name: bitcoind
     ports:
       - "8332:8333"
     volumes:
@@ -108,6 +108,30 @@ services:
     environment:
       - TEE_MODE=PRODUCTION
     restart: always
+
+  web:
+    build: ./web    # Node.js 后端
+    container_name: bitcoin-web
+    ports:
+      - "3000:3000"
+    environment:
+      - RPC_HOST=bitcoind
+      - RPC_PORT=8332
+      - RPC_USER=he
+      - RPC_PASSWORD=shuang
+    depends_on:
+      - bitcoind
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend   # React/Vue/Nuxt 静态前端
+    container_name: bitcoin-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - web
+    restart: unless-stopped
+
 volumes:
     tee:"""
 
