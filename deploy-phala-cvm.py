@@ -100,8 +100,6 @@ services:
     image: ghcr.io/${DOCKER_REGISTRY_USERNAME_KEY}/bitcoin_monitor:latest
     pull_policy: always
     container_name: bitcoind
-    ports:
-      - "8332:8332"
     volumes:
       - /var/run/tappd.sock:/var/run/tappd.sock
       - tee:/app/db.sqlite
@@ -132,7 +130,7 @@ services:
     ports:
       - "8080:3000"
     environment:
-      - REACT_APP_API_URL=http://bitcoin-web:4000
+      - REACT_APP_API_URL=https://5af5361e7c4290d284ff5d55a1cd8a9599d8ea6b-4000.dstack-prod7.phala.network/:4000
     depends_on:
       - web
     restart: unless-stopped
