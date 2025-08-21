@@ -38,13 +38,6 @@ jobs:
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_web:latest
           docker buildx build --no-cache -t $IMAGE_NAME --push ./web
 
-      # Step 5: Build Docker Image and Push
-      - name: Build Docker Image and Push
-        run: |
-          export DOCKER_BUILDKIT=1
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bitcoin_frontend:latest
-          docker buildx build --no-cache -t $IMAGE_NAME --push ./frontend
-
       # Step 6: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
