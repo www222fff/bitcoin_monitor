@@ -83,7 +83,7 @@ res.status(502).json({ error: e.message });
 // 2) /api/addressbalances -> getaddressbalances
 app.get('/top-balances', async (req, res) => {
   try {
-    const result = await callRpc("getaddressbalances", [0]);
+    const result = await callRpc("gettopbalances", []);
     res.json(result);
   } catch (e) {
     res.status(500).json({ error: e.message });
