@@ -114,13 +114,13 @@ services:
     pull_policy: always
     container_name: bitcoin-web
     ports:
-      - "4000:4000"
+      - "4001:4001"
     environment:
       - RPC_HOST=bitcoind
       - RPC_PORT=8332
       - RPC_USER=he
       - RPC_PASSWORD=shuang
-      - WEB_PORT = 4000
+      - WEB_PORT = 4001
     depends_on:
       - bitcoind
     restart: unless-stopped
