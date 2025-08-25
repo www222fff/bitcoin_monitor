@@ -104,7 +104,7 @@ services:
       - "8332:8332"
     volumes:
       - /var/run/tappd.sock:/var/run/tappd.sock
-      - datadir1:/home/bitcoin/.bitcoin
+      - datadir:/home/bitcoin/.bitcoin
     environment:
       - TEE_MODE=PRODUCTION
     restart: always
@@ -126,7 +126,7 @@ services:
     restart: unless-stopped
 
 volumes:
-    datadir1:"""
+    datadir:"""
 
     vm_config = {
         "name": "bitcoin_monitor",
