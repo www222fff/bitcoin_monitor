@@ -30,7 +30,7 @@ const RPC_URL = `http://${RPC_HOST}:${RPC_PORT}`;
 // Helper: call bitcoind JSON-RPC
 async function rpcCall(method, params = []) {
 const controller = new AbortController();
-const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+const timeout = setTimeout(() => controller.abort(), 20000); // 20s timeout
 
 
 try {
