@@ -135,9 +135,9 @@ volumes:
             "features": ["kms", "tproxy-net"],
             "docker_compose_file": docker_compose,
         },
-        "vcpu": 2,
-        "memory": 4096,
-        "disk_size": 40,
+        "vcpu": 4,
+        "memory": 8192,
+        "disk_size": 80,
         "teepod_id": teepod_id,
         "image": image,
         "advanced_features": {
