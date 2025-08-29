@@ -163,8 +163,7 @@ volumes:
 
     try:
         client = PhalaCVMClient()
-        #existing_vm = client.get_existing_vm() danny just for debug
-        existing_vm = None
+        existing_vm = client.get_existing_vm()
         if existing_vm:
             identifier = "app_" + existing_vm["app_id"]
             print(f"Updating existing VM: {identifier}")
