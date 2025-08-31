@@ -164,7 +164,8 @@ volumes:
         client = PhalaCVMClient()
         existing_vm = client.get_existing_vm()
         if existing_vm:
-            identifier = "app_" + existing_vm["app_id"]
+            #identifier = "app_" + existing_vm["app_id"]
+            identifier = "app_c6e27d0520f27d07224868a03791f8e9bd1efcf6"
             print(f"Updating existing VM: {identifier}")
             # Step 1: Get encryption public key
             compose = client.get_existed_pubkey(identifier)
